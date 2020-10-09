@@ -62,7 +62,7 @@ class digitoVerificador(Resource):
         rut = data['rut']
 
         if('.' in rut):
-            return "Escriba el rut sin puntos y con guion ej: 12345678-9", 422
+            return "Escriba el rut sin puntos y con guion ej: 12345678-9", 400
 
         es_valido = verificarRut(rut)
         
