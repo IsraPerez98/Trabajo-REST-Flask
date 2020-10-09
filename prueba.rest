@@ -1,0 +1,18 @@
+POST http://localhost:5000/digitoverificador/
+content-type: application/json
+
+{
+    "rut": "27962409-2"
+}
+
+##########
+
+POST http://localhost:5000/nombrepropio/
+content-type: application/json
+
+{
+    "apellido paterno": "Perez",
+    "apellido materno": "Berrios",
+    "nombres": "Israel Marcelo",
+    "genero": "M"
+}
