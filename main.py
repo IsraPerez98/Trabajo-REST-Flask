@@ -59,6 +59,7 @@ def verificarRut(rut):
 class digitoVerificador(Resource):
     def post(self):
         data = request.get_json(force=True)
+        print(data)
         rut = data['rut']
 
         if('.' in rut):
@@ -72,6 +73,27 @@ class digitoVerificador(Resource):
             return "El Rut Ingresado NO es Valido", 400
 
 api.add_resource(digitoVerificador, "/digitoverificador/")
+
+class nombrePropio(Resource):
+    def post(self):
+        data = request.get_json(force=True)
+        print(data)
+
+        apellido_paterno = data["apellido paterno"].title()
+        apellido_materno = data["apellido materno"].title()
+        nombres = data["nombres"]
+        genero = data["genero"].lower()
+
+        if(genero == "m"):
+            return "Sr. %s %s %s" % (nombres, apellido_paterno, apellido_materno), 200
+        elif (genero == "f"):
+            return "Sra. %s %s %s" % (nombres, apellido_paterno, apellido_materno), 200
+        else:
+            return "El genero debe ser M o F", 400
+        
+
+api.add_resource(nombrePropio, "/nombrepropio/")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
