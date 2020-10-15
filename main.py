@@ -1,8 +1,9 @@
 from flask import Flask, request
-from flask_restful import Api, Resource, abort
+from flask_cors import CORS
 
 app = Flask(__name__)
-api = Api(app)
+#api = Api(app)
+api = CORS(app)
 
 def verificarRut(rut):
     #True si el digito verificador es valido, False en otro caso
@@ -56,8 +57,8 @@ def verificarRut(rut):
     
     return False
 
-class digitoVerificador(Resource):
-    def post(self):
+@app.route("/digitoverificador/", methods=['GET'])
+def digitoVerificador():
         data = request.get_json(force=True)
         print(data)
         rut = data['rut']
@@ -72,27 +73,23 @@ class digitoVerificador(Resource):
         else:
             return "El Rut Ingresado NO es Valido", 400
 
-api.add_resource(digitoVerificador, "/digitoverificador/")
+@app.route("/nombrepropio/", methods=['GET'])
+def nombrePropio():
+    data = request.get_json(force=True)
+    print(data)
 
-class nombrePropio(Resource):
-    def post(self):
-        data = request.get_json(force=True)
-        print(data)
+    apellido_paterno = data["apellido paterno"].title()
+    apellido_materno = data["apellido materno"].title()
+    nombres = data["nombres"]
+    genero = data["genero"].lower()
 
-        apellido_paterno = data["apellido paterno"].title()
-        apellido_materno = data["apellido materno"].title()
-        nombres = data["nombres"]
-        genero = data["genero"].lower()
+    if(genero == "m"):
+        return "Sr. %s %s %s" % (nombres, apellido_paterno, apellido_materno), 200
+    elif (genero == "f"):
+        return "Sra. %s %s %s" % (nombres, apellido_paterno, apellido_materno), 200
+    else:
+        return "El genero debe ser M o F", 400
 
-        if(genero == "m"):
-            return "Sr. %s %s %s" % (nombres, apellido_paterno, apellido_materno), 200
-        elif (genero == "f"):
-            return "Sra. %s %s %s" % (nombres, apellido_paterno, apellido_materno), 200
-        else:
-            return "El genero debe ser M o F", 400
-        
-
-api.add_resource(nombrePropio, "/nombrepropio/")
 
 
 if __name__ == "__main__":
