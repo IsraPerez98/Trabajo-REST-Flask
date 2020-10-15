@@ -99,7 +99,7 @@ def nombrePropio():
 
     apellido_paterno = data["apellido paterno"].title()
     apellido_materno = data["apellido materno"].title()
-    nombres = data["nombres"]
+    nombres = data["nombres"].title()
     genero = data["genero"].lower()
 
     if(genero == "m"):
