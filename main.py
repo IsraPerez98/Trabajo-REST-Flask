@@ -1,9 +1,12 @@
 from flask import Flask, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+
+import re
 
 app = Flask(__name__)
 #api = Api(app)
-api = CORS(app)
+api = CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 def verificarRut(rut):
     #True si el digito verificador es valido, False en otro caso
@@ -57,14 +60,29 @@ def verificarRut(rut):
     
     return False
 
-@app.route("/digitoverificador/", methods=['GET'])
+@app.route("/digitoverificador/", methods=['POST', 'OPTIONS'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def digitoVerificador():
-        data = request.get_json(force=True)
+        try:
+            data = request.get_json(force=True)
+        except:
+            return "JSON con mal formato", 400
         print(data)
+
+        if 'rut' not in data:
+            return "RUT no ingresado", 400
+
         rut = data['rut']
 
-        if('.' in rut):
+        x = re.search("^[0-9-]*$", rut)
+
+        if not x:
             return "Escriba el rut sin puntos y con guion ej: 12345678-9", 400
+        
+        if(len(rut) > 10):
+            return "El rut no puede tener mas de 10 caracteres", 400
+        
+
 
         es_valido = verificarRut(rut)
         
@@ -73,7 +91,8 @@ def digitoVerificador():
         else:
             return "El Rut Ingresado NO es Valido", 400
 
-@app.route("/nombrepropio/", methods=['GET'])
+@app.route("/nombrepropio/", methods=['POST', 'OPTIONS'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def nombrePropio():
     data = request.get_json(force=True)
     print(data)

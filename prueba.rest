@@ -1,4 +1,4 @@
-GET http://localhost:5000/digitoverificador/
+POST http://localhost:5000/digitoverificador/
 content-type: application/json
 
 {
@@ -7,7 +7,7 @@ content-type: application/json
 
 ##########
 
-GET http://localhost:5000/nombrepropio/
+POST http://localhost:5000/nombrepropio/
 content-type: application/json
 
 {
