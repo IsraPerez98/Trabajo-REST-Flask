@@ -4,11 +4,10 @@ from flask_cors import CORS, cross_origin
 import re
 
 app = Flask(__name__)
-#api = Api(app)
 api = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-def verificarRut(rut):
+def verificar_Rut(rut):
     #True si el digito verificador es valido, False en otro caso
     #se utiliza el algoritmo de modulo 11
     #https://validarutchile.cl/calcular-digito-verificador.php
@@ -62,7 +61,7 @@ def verificarRut(rut):
 
 @app.route("/digitoverificador/", methods=['POST', 'OPTIONS'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-def digitoVerificador():
+def digito_Verificador():
         try:
             data = request.get_json(force=True)
         except:
@@ -84,7 +83,7 @@ def digitoVerificador():
         
 
 
-        es_valido = verificarRut(rut)
+        es_valido = verificar_Rut(rut)
         
         if(es_valido):
             return "El Rut Ingresado es Valido", 200
@@ -93,7 +92,7 @@ def digitoVerificador():
 
 @app.route("/nombrepropio/", methods=['POST', 'OPTIONS'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-def nombrePropio():
+def nombre_Propio():
     data = request.get_json(force=True)
     print(data)
 
