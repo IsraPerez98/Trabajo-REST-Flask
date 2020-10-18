@@ -1,6 +1,8 @@
 # Trabajo-REST-Flask
 Trabajo para Redes y Comunicacion de Datos
 
+Para revisar este proyecto en su conjunto puede visitar la pagina http://186.64.121.196/cliente-rcd/
+
 Construido con Flask
 
 utilice
